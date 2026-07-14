@@ -24,10 +24,16 @@ pip install ".[server]"  # 安装 Web 服务依赖
 ### 启动 Web 服务
 
 ```bash
-python -m uvicorn server.app:app --reload --port 8000
+python -m uvicorn server.app:app --reload --host 127.0.0.1 --port 8000
 ```
 
-浏览器打开 http://localhost:8000
+浏览器打开 http://127.0.0.1:8000/evaluation/
+
+统一平台使用以下路径：
+
+- 页面：`/evaluation/`
+- 数据集 API：`/api/evaluation/datasets/*`
+- 评测 API：`/api/evaluation/eval/*`
 
 ### Docker 部署
 
