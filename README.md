@@ -35,6 +35,15 @@ python -m uvicorn server.app:app --reload --host 127.0.0.1 --port 8000
 - 数据集 API：`/api/evaluation/datasets/*`
 - 评测 API：`/api/evaluation/eval/*`
 
+用户评测集目录可通过 `DATASET_DIR` 环境变量指定；未设置时仍使用项目根目录下的 `datasets`：
+
+```bash
+export DATASET_DIR=/srv/markdown-quality-platform/datasets
+python -m uvicorn server.app:app --host 127.0.0.1 --port 8000
+```
+
+统一部署时，应将该路径设置为评测集构建系统的 `SHARED_DATASET_DIR`，使两个系统读取同一目录。新发布的数据集会在本服务下次启动时被扫描。
+
 ### Docker 部署
 
 ```bash
