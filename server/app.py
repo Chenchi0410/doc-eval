@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -27,11 +28,11 @@ app.add_middleware(
 
 # Initialise dataset registry at startup
 _builtin_dir = Path("newbench")
-_user_dir = Path("datasets")
+_user_dir = Path(os.environ.get("DATASET_DIR", "datasets")).expanduser()
 init_registry(builtin_dir=_builtin_dir, user_dir=_user_dir)
 
-app.include_router(dataset_router, prefix="/api/datasets", tags=["dataset"])
-app.include_router(eval_router, prefix="/api/eval", tags=["eval"])
+app.include_router(dataset_router, prefix="/api/evaluation/datasets", tags=["dataset"])
+app.include_router(eval_router, prefix="/api/evaluation/eval", tags=["eval"])
 
 static_dir = Path(__file__).parent / "static"
-app.mount("", StaticFiles(directory=str(static_dir), html=True), name="static")
+app.mount("/evaluation", StaticFiles(directory=str(static_dir), html=True), name="static")

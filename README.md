@@ -24,10 +24,25 @@ pip install ".[server]"  # 安装 Web 服务依赖
 ### 启动 Web 服务
 
 ```bash
-python -m uvicorn server.app:app --reload --port 8000
+python -m uvicorn server.app:app --reload --host 127.0.0.1 --port 8000
 ```
 
-浏览器打开 http://localhost:8000
+浏览器打开 http://127.0.0.1:8000/evaluation/
+
+统一平台使用以下路径：
+
+- 页面：`/evaluation/`
+- 数据集 API：`/api/evaluation/datasets/*`
+- 评测 API：`/api/evaluation/eval/*`
+
+用户评测集目录可通过 `DATASET_DIR` 环境变量指定；未设置时仍使用项目根目录下的 `datasets`：
+
+```bash
+export DATASET_DIR=/srv/markdown-quality-platform/datasets
+python -m uvicorn server.app:app --host 127.0.0.1 --port 8000
+```
+
+统一部署时，应将该路径设置为评测集构建系统的 `SHARED_DATASET_DIR`，使两个系统读取同一目录。新发布的数据集会在本服务下次启动时被扫描。
 
 ### Docker 部署
 
